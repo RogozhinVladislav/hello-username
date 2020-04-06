@@ -1,11 +1,13 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import { AuthContext } from "../../contexts/auth-context";
 import { login } from "../../actions";
+
+import styles from "./Login.module.css";
 
 function Login({ login }) {
   const authHook = useContext(AuthContext);
@@ -13,7 +15,7 @@ function Login({ login }) {
   const onFinish = async (values) => login({ values, authHook });
 
   return (
-    <div>
+    <div className={styles.loginWrap}>
       <h2 level={2}>Авторизация</h2>
       <Form
         name="normal_login"
@@ -44,7 +46,7 @@ function Login({ login }) {
           <Button
             type="primary"
             htmlType="submit"
-            className="login-form-button"
+            className={`login-form-button ${styles.loginButton}`}
           >
             Войти
           </Button>

@@ -1,25 +1,26 @@
 import React, { useEffect, useContext, useMemo } from "react";
 import { connect } from "react-redux";
 import { fetchUsers, deleteUser } from "../../actions";
-import { List, Avatar } from "antd";
-import { PageHeader, Button, Descriptions } from "antd";
+import { List, Avatar, PageHeader, Button } from "antd";
 
 import { AuthContext } from "../../contexts/auth-context";
+
+import styles from "./Home.module.css";
 
 function Home({ fetchUsers, users, deleteUser }) {
   const authHook = useContext(AuthContext);
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   const currentUser = useMemo(
     () => users && users.find((user) => user.id === authHook.userId),
-    [users]
+    [users, authHook.userId]
   );
 
   return (
-    <div className="site-page-header-ghost-wrapper">
+    <div className={`site-page-header-ghost-wrapper ${styles.homeWrap}`}>
       <PageHeader
         title={`Привет, ${currentUser && currentUser.username}`}
         extra={[
@@ -34,16 +35,18 @@ function Home({ fetchUsers, users, deleteUser }) {
         renderItem={(item) => (
           <List.Item
             actions={[
-              <a key="list-remove" onClick={() => deleteUser(item.id)}>
-                Удалить
-              </a>,
+              currentUser && currentUser.id !== item.id && (
+                <a key="list-remove" onClick={() => deleteUser(item.id)}>
+                  Удалить
+                </a>
+              ),
             ]}
           >
             <List.Item.Meta
               avatar={
                 <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
               }
-              title={<a href="javascript:void(0)">{item.username}</a>}
+              title={<span>{item.username}</span>}
             />
           </List.Item>
         )}
@@ -53,7 +56,6 @@ function Home({ fetchUsers, users, deleteUser }) {
 }
 
 const mapStateToProps = ({ users }) => {
-  console.log('users', users)
   return {
     users,
   };

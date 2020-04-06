@@ -1,10 +1,9 @@
-var sqlite3 = require("sqlite3").verbose();
+const sqlite3 = require("sqlite3").verbose();
 
 const DBSOURCE = "db.sqlite";
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
   if (err) {
-    // Cannot open database
     console.error(err.message);
     throw err;
   } else {
@@ -18,11 +17,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             )`,
       (err) => {
         if (err) {
-          // Table already created
+          // table already exists
         } else {
-          // Table just created, creating some rows
-          var insert =
-            "INSERT INTO user (username, password) VALUES (?,?)";
+          const insert = "INSERT INTO user (username, password) VALUES (?,?)";
           db.run(insert, ["admin", "admin123456"]);
           db.run(insert, ["user", "user123456"]);
         }

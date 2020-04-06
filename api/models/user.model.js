@@ -28,7 +28,7 @@ class User {
   }
 
   getUserByName({ username }) {
-    const sql = "select * from user where username = ?";
+    const sql = "SELECT * FROM user WHERE username = ?";
     const params = [username];
 
     return new Promise((resolve, reject) => {
@@ -42,8 +42,8 @@ class User {
   }
 
   createNewUser({ username, password }) {
-    var sql = "INSERT INTO user (username, password) VALUES (?,?)";
-    var params = [username, password];
+    const sql = "INSERT INTO user (username, password) VALUES (?,?)";
+    const params = [username, password];
 
     return new Promise((resolve, reject) => {
       db.run(sql, params, function (err, result) {

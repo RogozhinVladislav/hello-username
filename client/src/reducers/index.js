@@ -2,7 +2,6 @@ import {
   FETCH_USERS,
   SET_USERS,
   FETCH_USERS_FAILURE,
-  SET_CURRENT_USER,
   DELETE_USER_SUCCESS,
 } from "../actions";
 
@@ -31,7 +30,6 @@ export default function toDoApp(state = initialState, action) {
         loading: false,
       };
     case DELETE_USER_SUCCESS:
-      debugger;
       return {
         ...state,
         users: state.users.filter((user) => user.id !== action.payLoad),

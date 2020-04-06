@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import { register } from "../../actions";
+
+import styles from "./Register.module.css";
 
 function Register({ register }) {
   const history = useHistory();
@@ -15,7 +17,7 @@ function Register({ register }) {
   };
 
   return (
-    <div>
+    <div className={styles.registerWrap}>
       <h2 level={2}>Регистрация</h2>
       <Form
         name="normal_login"
@@ -25,7 +27,14 @@ function Register({ register }) {
       >
         <Form.Item
           name="username"
-          rules={[{ required: true, message: "Пожалуйста, введите логин!" }]}
+          rules={[
+            { required: true, message: "Пожалуйста, введите логин!" },
+            { min: 5, message: "Логин должен содержать минимум 5 символов!" },
+            {
+              max: 15,
+              message: "Логин должен содержать максимум 15 символов!",
+            },
+          ]}
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
@@ -34,7 +43,14 @@ function Register({ register }) {
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: "Пожалуйста, введите пароль!" }]}
+          rules={[
+            { required: true, message: "Пожалуйста, введите пароль!" },
+            { min: 5, message: "Пароль должен содержать минимум 5 символов!" },
+            {
+              max: 100,
+              message: "Пароль должен содержать максимум 100 символов!",
+            },
+          ]}
         >
           <Input
             prefix={<LockOutlined className="site-form-item-icon" />}
@@ -66,7 +82,7 @@ function Register({ register }) {
           <Button
             type="primary"
             htmlType="submit"
-            className="login-form-button"
+            className={`login-form-button ${styles.registerButton}`}
           >
             Создать аккаунт
           </Button>

@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore, applyMiddleware } from "redux";
+import createSagaMiddleware from "redux-saga";
+import { composeWithDevTools } from "redux-devtools-extension";
 import toDoApp from "./reducers";
-import rootSaga from './sagas';
+import rootSaga from "./sagas";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
@@ -13,18 +13,17 @@ import * as serviceWorker from "./serviceWorker";
 const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 
-const store = createStore(toDoApp, composeWithDevTools(
-  applyMiddleware(...middlewares),
-));
+const store = createStore(
+  toDoApp,
+  composeWithDevTools(applyMiddleware(...middlewares))
+);
 
 sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>,
-  </React.StrictMode>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById("root")
 );
 

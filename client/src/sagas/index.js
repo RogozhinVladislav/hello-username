@@ -15,6 +15,7 @@ import {
 } from "../actions";
 import * as usersApi from "../api/users";
 import * as authApi from "../api/auth";
+import { message } from 'antd';
 
 export function* fetchUsersSaga() {
   try {
@@ -27,7 +28,7 @@ export function* fetchUsersSaga() {
 
 export function* deleteUserSaga({ payLoad }) {
   try {
-    const response = yield call(usersApi.remove, payLoad);
+    yield call(usersApi.remove, payLoad);
     yield put(deleteUserSuccess(payLoad));
   } catch (error) {
     yield put(deleteUserFailure(error));
@@ -42,6 +43,7 @@ export function* loginSaga({ payLoad }) {
     authHook.login(token, userId);
     yield put(loginSuccess());
   } catch (error) {
+    message.error(error.response.data.message);
     yield put(loginFailure());
   }
 }
@@ -53,6 +55,7 @@ export function* registerSaga({ payLoad }) {
     yield onSuccess();
     yield put(registerSuccess());
   } catch (error) {
+    message.error(error.response.data.message);
     yield put(registerFailure());
   }
 }

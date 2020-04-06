@@ -18,7 +18,7 @@ module.exports = {
       const candidate = await User.getUserByName({ username })
 
       if (candidate) {
-        return res.status(400).json({ message: 'Пользователь с таким email уже существует' })
+        return res.status(400).json({ message: 'Пользователь с таким логином уже существует' })
       }
 
       const hashedPassword = await bcrypt.hash(password, 12)
@@ -42,7 +42,7 @@ module.exports = {
       }
 
       const { username, password } = req.body
-      console.log({ username, password })
+
       const user = await User.getUserByName({ username })
       if (!user) {
         return res.status(400).json({ message: 'Пользователь не найден' })
