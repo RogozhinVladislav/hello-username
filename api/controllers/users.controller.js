@@ -5,7 +5,6 @@ module.exports = {
   async list(req, res, next) {
     try {
       const users = await User.getAllUsers();
-      console.log(users)
       res.json(users);
     } catch (error) {
       res.status(500).send(error);
@@ -16,6 +15,15 @@ module.exports = {
     try {
       const user = await User.getUserById({ id: req.params.id });
       res.json(user);
+    } catch (error) {
+      res.status(500).send(error);
+      next(error);
+    }
+  },
+  async deleteUser(req, res, next) {
+    try {
+      await User.deleteUser({ id: req.params.id });
+      res.json({ message: "Пользователь был удалён" });
     } catch (error) {
       res.status(500).send(error);
       next(error);

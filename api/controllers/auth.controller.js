@@ -15,11 +15,11 @@ module.exports = {
       }
 
       const { username, password } = req.body
-      // const candidate = await User.findOne({ email })
+      const candidate = await User.getUserByName({ username })
 
-      // if (candidate) {
-      //   return res.status(400).json({ message: 'Пользователь с таким email уже существует' })
-      // }
+      if (candidate) {
+        return res.status(400).json({ message: 'Пользователь с таким email уже существует' })
+      }
 
       const hashedPassword = await bcrypt.hash(password, 12)
       const user = User.createNewUser({ username, password: hashedPassword })

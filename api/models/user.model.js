@@ -1,23 +1,8 @@
 const db = require("../../database.js");
 
 class User {
-  createNewUser({ username, password }) {
-    var sql = "INSERT INTO user (username, password) VALUES (?,?)";
-    var params = [username, password];
-
-    return new Promise((resolve, reject) => {
-      db.run(sql, params, function (err, result) {
-        if (err) reject(err);
-        resolve({
-          username,
-          password,
-        });
-      });
-    });
-  }
-
   getAllUsers() {
-    const sql = "select * from user";
+    const sql = "SELECT id, username FROM user";
     const params = [];
 
     return new Promise((resolve, reject) => {
@@ -29,7 +14,7 @@ class User {
   }
 
   getUserById({ id }) {
-    const sql = "select * from user where id = ?";
+    const sql = "SELECT * FROM user WHERE id = ?";
     const params = [id];
 
     return new Promise((resolve, reject) => {
@@ -48,6 +33,35 @@ class User {
 
     return new Promise((resolve, reject) => {
       db.get(sql, params, (err, row) => {
+        if (err) {
+          if (err) reject(err);
+        }
+        resolve(row);
+      });
+    });
+  }
+
+  createNewUser({ username, password }) {
+    var sql = "INSERT INTO user (username, password) VALUES (?,?)";
+    var params = [username, password];
+
+    return new Promise((resolve, reject) => {
+      db.run(sql, params, function (err, result) {
+        if (err) reject(err);
+        resolve({
+          username,
+          password,
+        });
+      });
+    });
+  }
+
+  deleteUser({ id }) {
+    const sql = "DELETE FROM user WHERE id = ?";
+    const params = [id];
+
+    return new Promise((resolve, reject) => {
+      db.run(sql, params, (err, row) => {
         if (err) {
           if (err) reject(err);
         }
