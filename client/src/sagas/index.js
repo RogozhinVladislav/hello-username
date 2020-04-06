@@ -15,7 +15,7 @@ import {
 } from "../actions";
 import * as usersApi from "../api/users";
 import * as authApi from "../api/auth";
-import { message } from 'antd';
+import { message } from "antd";
 
 export function* fetchUsersSaga() {
   try {
@@ -27,9 +27,11 @@ export function* fetchUsersSaga() {
 }
 
 export function* deleteUserSaga({ payLoad }) {
+  const { id, onSuccess } = payLoad;
   try {
-    yield call(usersApi.remove, payLoad);
-    yield put(deleteUserSuccess(payLoad));
+    yield call(usersApi.remove, id);
+    yield put(deleteUserSuccess(id));
+    if (onSuccess) onSuccess();
   } catch (error) {
     yield put(deleteUserFailure(error));
   }

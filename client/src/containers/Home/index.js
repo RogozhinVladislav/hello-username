@@ -22,10 +22,22 @@ function Home({ fetchUsers, users, deleteUser }) {
   return (
     <div className={`site-page-header-ghost-wrapper ${styles.homeWrap}`}>
       <PageHeader
-        title={`Привет, ${currentUser && currentUser.username}`}
+        title={`Привет, ${currentUser && currentUser.username}!`}
         extra={[
           <Button key="1" type="primary" onClick={authHook.logout}>
             Выйти из аккаунта
+          </Button>,
+          <Button
+            key="1"
+            type="primary"
+            onClick={() =>
+              deleteUser({
+                id: currentUser.id,
+                onSuccess: () => authHook.logout(),
+              })
+            }
+          >
+            Удалить аккаунт
           </Button>,
         ]}
       ></PageHeader>
@@ -36,7 +48,7 @@ function Home({ fetchUsers, users, deleteUser }) {
           <List.Item
             actions={[
               currentUser && currentUser.id !== item.id && (
-                <a key="list-remove" onClick={() => deleteUser(item.id)}>
+                <a key="list-remove" onClick={() => deleteUser({ id: item.id })}>
                   Удалить
                 </a>
               ),
